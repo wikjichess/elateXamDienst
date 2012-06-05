@@ -20,3 +20,4 @@ Quick fix: replace '*firefox' with '*safari'
 Screenshot of test failures can be found in ./target/surefire-reports/Command line suite/*.png
  
 Last Edit 5.6.2012
+by Christoph
