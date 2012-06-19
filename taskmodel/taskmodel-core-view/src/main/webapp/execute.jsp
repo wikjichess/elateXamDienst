@@ -108,6 +108,11 @@ function nutzeUhr()
 	}else return;
 }
 
+function submit_on_timeout()
+{
+	document.forms._speichern.submit();
+}
+
 function timer1()
 {
 	var remaining_min = Math.floor( this.mseconds >= 0 ? this.mseconds / 60000 : 0 );
@@ -149,6 +154,7 @@ function timer1()
 				break;
 			}
 		}
+		submit_on_timeout();
 	}
 
 	this.mseconds = this.mseconds - 1000;
@@ -266,7 +272,7 @@ function checkedLink(name, target, linkClass)
       </table>
       <br>
       <br>
-      <form method="post" action="<html:rewrite action="/commit"/>" onSubmit=" return send() ">
+      <form name="_abgeben" method="post" action="<html:rewrite action="/commit"/>" onSubmit=" return send() ">
    	    <input type="hidden" name="id" value="${Task.taskId}">
         <div align="center">
           <input type="submit" name="submit" value="Abgeben">
@@ -287,7 +293,7 @@ function checkedLink(name, target, linkClass)
       <br>
       <br>
       <br>
-      <form method="post" action="<html:rewrite action="/savePage"/>" onSubmit="return preSaveManager.callback();">
+      <form name="_speichern" method="post" action="<html:rewrite action="/savePage"/>" onSubmit="return preSaveManager.callback();">
 	    <input type="hidden" name="hashCode" value="${Task.hashCode}">
 	    <input type="hidden" name="id" value="${Task.taskId}">
 	    <!-- continue after saving -->
