@@ -105,6 +105,12 @@ public class SavePageAction extends Action {
         }
         request.setAttribute("ReturnURL", delegateObject.getReturnURL());
 
+        // check if clicked on save or continue
+        if (request.getParameterMap().containsKey("continue")) {
+            // TODO: Forward when ready
+        	System.out.println("_______TODO: Forward when ready________");
+        }
+
         ComplexTasklet ct;
 
         try {
