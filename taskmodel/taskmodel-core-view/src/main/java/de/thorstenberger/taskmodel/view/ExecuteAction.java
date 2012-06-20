@@ -78,6 +78,7 @@ public class ExecuteAction extends org.apache.struts.action.Action {
 
 		// check if clicked on save or continue
 		if (request.getParameterMap().containsKey("continue")) {
+			// FIXME: maybe there is no next page
 			page = page + 1;
 		}
 
