@@ -78,7 +78,6 @@ public class ExecuteAction extends org.apache.struts.action.Action {
 
 		// check if clicked on save or continue
 		if (request.getParameterMap().containsKey("continue")) {
-			System.out.println("_______ Forward when ready________");
 			page = page + 1;
 		}
 
