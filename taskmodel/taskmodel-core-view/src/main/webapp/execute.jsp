@@ -362,7 +362,7 @@ function checkedLink(name, target, linkClass)
               <p align="right">
 			  	<input type="hidden" name="page" value="${Task.page}">
                 <input type="submit" name="save" value="Speichern">
-                <input type="submit" name="continue" value="Speichern & Weiter">
+                <input type="submit" name="continue" value="Speichern und Weiter">
                 <br>
                 <br>
                 Diese Seite abspeichern.<br>

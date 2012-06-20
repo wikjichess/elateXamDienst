@@ -76,6 +76,12 @@ public class ExecuteAction extends org.apache.struts.action.Action {
             return mapping.findForward("error");
         }
 
+		// check if clicked on save or continue
+		if (request.getParameterMap().containsKey("continue")) {
+			System.out.println("_______ Forward when ready________");
+			page = page + 1;
+		}
+
         final TaskModelViewDelegateObject delegateObject = (TaskModelViewDelegateObject) TaskModelViewDelegate.getDelegateObject(
                 request.getSession().getId(), id);
 

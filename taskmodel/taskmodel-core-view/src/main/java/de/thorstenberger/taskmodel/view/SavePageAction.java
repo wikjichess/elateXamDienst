@@ -105,12 +105,6 @@ public class SavePageAction extends Action {
         }
         request.setAttribute("ReturnURL", delegateObject.getReturnURL());
 
-        // check if clicked on save or continue
-        if (request.getParameterMap().containsKey("continue")) {
-            // TODO: Forward when ready
-        	System.out.println("_______TODO: Forward when ready________");
-        }
-
         ComplexTasklet ct;
 
         try {
@@ -159,6 +153,10 @@ public class SavePageAction extends Action {
 
             ct.savePage(page, submitDataList, hashCode);
             processInteractiveTasklets(ct, subtasklets, submitDataList, request);
+
+    		// check if clicked on save or continue
+    		// javascript:leave("/taskmodel-core-view/execute.do?id=1&todo=continue&page=2")
+    		// zuständig: ExecuteAction.java,
 
             return mapping.findForward("success");
 
