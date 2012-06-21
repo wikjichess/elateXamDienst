@@ -216,8 +216,10 @@ public class ExecuteAction extends org.apache.struts.action.Action {
 					+ ct.getComplexTaskDefRoot().getTimeInMinutesWithoutKindnessExtensionTime()
 					* 60 * 1000;
             ctivo.setRemainingTimeMillis(deadline - System.currentTimeMillis());
+            ctivo.setDeadline(DateUtil.getStringFromMillis(deadline));
         } else {
             ctivo.setRemainingTimeMillis(-1);
+            ctivo.setDeadline("-");
         }
 
         ctivo.setTimeRestricted(ct.getComplexTaskDefRoot().hasTimeRestriction());
@@ -232,21 +234,6 @@ public class ExecuteAction extends org.apache.struts.action.Action {
         ctivo.setProcessPercentage(nf.format(pi.getProgressPercentage()));
         ctivo.setNumOfSubtasklets(pi.getNumOfSubtasklets());
         ctivo.setNumOfProcessedSubtasklets(pi.getNumOfProcessedSubtasklets());
-
-        /*
-         * FIXME: hier befindet sich teilw. redundanter Code, siehe einige Zeilen weiter
-         * oben (der berechnete Wert sollte bereits in Variable Deadline stehen?)
-         */
-        if (ct.getComplexTaskDefRoot().hasTimeRestriction()) {
-			ctivo.setDeadline(DateUtil.getStringFromMillis(
-					ct.getActiveTry().getStartTime()
-					+ ct.getActiveTry().getTimeExtension()
-					+ ct.getComplexTaskDefRoot().getTimeInMinutesWithoutKindnessExtensionTime()
-					* 60 * 1000
-			));
-        } else {
-            ctivo.setDeadline("-");
-        }
 
         ctivo.setHashCode("" + ct.getActiveTry().getPage(page).getHash());
 
