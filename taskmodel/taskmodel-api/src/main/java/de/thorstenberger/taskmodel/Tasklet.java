@@ -15,7 +15,7 @@ GNU General Public License for more details.
 You should have received a copy of the GNU General Public License
 along with this program; if not, write to the Free Software
 Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
-*/
+ */
 /**
  *
  */
@@ -25,13 +25,13 @@ import java.util.List;
 import java.util.Map;
 
 /**
- * A tasklet resembles a {@link TaskDef} instance that a user is currently working on.
- *
+ * A tasklet resembles a {@link TaskDef} instance that a user is currently
+ * working on.
+ * 
  * @author Thorsten Berger
- *
+ * 
  */
 public interface Tasklet {
-
 
 	/**
 	 * The tasklet lifecycle is determined by its status:
@@ -47,28 +47,31 @@ public interface Tasklet {
 	 */
 	public enum Status{
 
-		INITIALIZED( 0, "initialized" ),
-		INPROGRESS( 1, "in_progress" ),
-		SOLVED( 2, "processed" ),
-		CORRECTING( 3, "correcting" ),
-		CORRECTED( 4, "corrected" ),
-		ANNOTATED( 5, "annotated" ),
+		INITIALIZED	( 0, "initialized" ),
+		INPROGRESS	( 1, "in_progress" ),
+		SOLVED		( 2, "processed" ),
+		CORRECTING	( 3, "correcting" ),
+		CORRECTED	( 4, "corrected" ),
+		ANNOTATED	( 5, "annotated" ),
 		ANNOTATION_ACKNOWLEDGED( 6, "annotation_acknowledged" );
 
 		private final int order;
 		private final String value;
-		public int getOrder(){
+
+		public int getOrder() {
 			return order;
 		}
+
 		@Override
-    public String toString(){
-			return value;
-		}
-		public String getValue(){
+		public String toString() {
 			return value;
 		}
 
-		Status( int order, String value ){
+		public String getValue() {
+			return value;
+		}
+
+		Status(int order, String value) {
 			this.order = order;
 			this.value = value;
 		}
@@ -78,10 +81,10 @@ public interface Tasklet {
 	public static final String FLAG_HAS_CORRECTOR_ANNOTATION = "has_corrector_annotation";
 	public static final String FLAG_HAS_STUDENT_ANNOTATION = "has_student_annotation";
 
-
 	/**
-	 * Check if this tasklet is still within the maximum allowed processing time. If not,
-	 * this tasklet gets submitted. This prevents lurking around infinitely.
+	 * Check if this tasklet is still within the maximum allowed processing
+	 * time. If not, this tasklet gets submitted. This prevents lurking around
+	 * infinitely.
 	 */
 	public void update();
 
@@ -91,46 +94,57 @@ public interface Tasklet {
 
 	public Status getStatus();
 
-	public boolean hasOrPassedStatus( Status status );
+	public boolean hasOrPassedStatus(Status status);
 
 	public TaskletCorrection getTaskletCorrection();
 
 	public List<String> getFlags();
 
-	public void addFlag( String flag );
+	public void addFlag(String flag);
 
-	public void removeFlag( String flag );
+	public void removeFlag(String flag);
 
 	/**
-	 * Gets a property of the tasklet identified by its key. The value is always non-null.
+	 * Gets a property of the tasklet identified by its key. The value is always
+	 * non-null.
+	 * 
 	 * @param key
-	 * @return the string representation of the property's value or null if does not exist
+	 * @return the string representation of the property's value or null if does
+	 *         not exist
 	 */
-	public String getProperty( String key );
+	public String getProperty(String key);
 
 	/**
 	 * Sets a property of the tasklet. Remove by setting value == null.
+	 * 
 	 * @param key
 	 * @param value
 	 */
-	public void setProperty( String key, String value );
-	
+	public void setProperty(String key, String value);
+
 	/**
 	 * Returns the backing properties Map.
+	 * 
 	 * @return
 	 */
 	public Map<String, String> getProperties();
-	
+
 	/**
 	 * Assigns the tasklet to the mentioned corrector.
-	 * @param correctorId the corrector id/login
-	 * @throws TaskApiException if Tasklet cannot be assigned due to the status not being {@link Status.SOLVED}.
+	 * 
+	 * @param correctorId
+	 *            the corrector id/login
+	 * @throws TaskApiException
+	 *             if Tasklet cannot be assigned due to the status not being
+	 *             {@link Status.SOLVED}.
 	 */
-	public void assignToCorrector( String correctorId ) throws TaskApiException;
+	public void assignToCorrector(String correctorId) throws TaskApiException;
 
 	/**
 	 * Unassigns the tasklet from the currently assigned corrector.
-	 * @throws TaskApiException if tasklet is not assigned
+	 * 
+	 * @throws TaskApiException
+	 *             if tasklet is not assigned
 	 */
 	public void unassignFromCorrector() throws TaskApiException;
 

@@ -15,7 +15,7 @@ GNU General Public License for more details.
 You should have received a copy of the GNU General Public License
 along with this program; if not, write to the Free Software
 Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
-*/
+ */
 /**
  *
  */
@@ -58,27 +58,27 @@ public class ActiveTaskUserListAction extends BaseAction {
 
 		List<Tasklet> allTasklets = new ArrayList<Tasklet>();
 		for(TaskDef td: allTaskDefs) {
-      allTasklets.addAll(container.getTasklets(td.getId()));
-    }
+			allTasklets.addAll(container.getTasklets(td.getId()));
+		}
 
-    Map<Long, ActiveTaskDefVO> activeTasks = new HashMap<Long, ActiveTaskDefVO>();
+		Map<Long, ActiveTaskDefVO> activeTasks = new HashMap<Long, ActiveTaskDefVO>();
 		List<ActiveUserVO> vos = new ArrayList<ActiveUserVO>();
 
 		for( Tasklet tasklet : allTasklets ){
 			if(tasklet.getStatus() != Status.INPROGRESS) {
-        continue;
-      }
+				continue;
+			}
 
-      final String taskTitle = manager.getTaskDef(tasklet.getTaskId()).getTitle();
+			final String taskTitle = manager.getTaskDef(tasklet.getTaskId()).getTitle();
 
-      addActiveTaskTo(activeTasks, tasklet.getTaskId(), taskTitle);
+			addActiveTaskTo(activeTasks, tasklet.getTaskId(), taskTitle);
 
 			ActiveUserVO vo = new ActiveUserVO();
-        	vo.setTaskId( "" + tasklet.getTaskId() );
-      vo.setTaskTitle(taskTitle);
-        	vo.setUsername(tasklet.getUserId() );
-        	if(tasklet instanceof ComplexTasklet) {
-        	    ComplexTasklet ct = (ComplexTasklet) tasklet;
+			vo.setTaskId( "" + tasklet.getTaskId() );
+			vo.setTaskTitle(taskTitle);
+			vo.setUsername(tasklet.getUserId() );
+			if(tasklet instanceof ComplexTasklet) {
+				ComplexTasklet ct = (ComplexTasklet) tasklet;
 				Try activeTry = ct.getActiveTry();
 
 				// count subtasklets
@@ -88,36 +88,36 @@ public class ActiveTaskUserListAction extends BaseAction {
 				vo.setStatus(numProcessedSubtasklets+"/"+numSubtasklets);
 
 				if (ct.getComplexTaskDefRoot().hasTimeRestriction()) {
-		            final long deadline = ct.getActiveTry().getStartTime() + ct.getActiveTry().getTimeExtension() + ct.getComplexTaskDefRoot().getTimeInMinutesWithoutKindnessExtensionTime() * 60 * 1000;
-		            long remainingMillis = deadline - System.currentTimeMillis();
-		            vo.setRemainingMinutes(Long.toString(remainingMillis/60000));
-		        }
-        	}else{
-        		vo.setRemainingMinutes("-");
-        		vo.setStatus("aktiv");
-        	}
-        	vos.add(vo);
+					final long deadline = ct.getActiveTry().getStartTime() + ct.getActiveTry().getTimeExtension() + ct.getComplexTaskDefRoot().getTimeInMinutesWithoutKindnessExtensionTime() * 60 * 1000;
+					long remainingMillis = deadline - System.currentTimeMillis();
+					vo.setRemainingMinutes(Long.toString(remainingMillis/60000));
+				}
+			}else{
+				vo.setRemainingMinutes("-");
+				vo.setStatus("aktiv");
+			}
+			vos.add(vo);
 		}
 
 		request.setAttribute( "ActiveUsers", vos );
-    request.setAttribute( "activeTasks", new ArrayList(activeTasks.values()));
+		request.setAttribute( "activeTasks", new ArrayList(activeTasks.values()));
 
 		return mapping.findForward( "success" );
 	}
 
-  /**
-   * @param activeTasks
-   * @param taskId
-   * @param taskTitle
-   */
-  private void addActiveTaskTo(Map<Long, ActiveTaskDefVO> activeTasks, long taskId, String taskTitle) {
-    if (!activeTasks.containsKey(taskId)) {
-      ActiveTaskDefVO active = new ActiveTaskDefVO();
-      active.setTaskId(Long.toString(taskId));
-      active.setTaskTitle(taskTitle);
-      activeTasks.put(taskId, active);
-    }
+	/**
+	 * @param activeTasks
+	 * @param taskId
+	 * @param taskTitle
+	 */
+	private void addActiveTaskTo(Map<Long, ActiveTaskDefVO> activeTasks, long taskId, String taskTitle) {
+		if (!activeTasks.containsKey(taskId)) {
+			ActiveTaskDefVO active = new ActiveTaskDefVO();
+			active.setTaskId(Long.toString(taskId));
+			active.setTaskTitle(taskTitle);
+			activeTasks.put(taskId, active);
+		}
 
-  }
+	}
 
 }

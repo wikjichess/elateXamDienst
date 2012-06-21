@@ -41,6 +41,7 @@ import de.thorstenberger.taskmodel.TaskModelViewDelegateObject;
 import de.thorstenberger.taskmodel.complex.ComplexTasklet;
 import de.thorstenberger.taskmodel.complex.TaskDef_Complex;
 import de.thorstenberger.taskmodel.complex.complextaskhandling.SubTasklet;
+import de.thorstenberger.taskmodel.complex.complextaskhandling.Try;
 import de.thorstenberger.taskmodel.complex.complextaskhandling.Try.ProgressInformation;
 
 /**
@@ -75,12 +76,6 @@ public class ExecuteAction extends org.apache.struts.action.Action {
             saveErrors(request, errors);
             return mapping.findForward("error");
         }
-
-		// check if clicked on save or continue
-		if (request.getParameterMap().containsKey("continue")) {
-			// FIXME: maybe there is no next page
-			page = page + 1;
-		}
 
         final TaskModelViewDelegateObject delegateObject = (TaskModelViewDelegateObject) TaskModelViewDelegate.getDelegateObject(
                 request.getSession().getId(), id);
@@ -165,6 +160,15 @@ public class ExecuteAction extends org.apache.struts.action.Action {
             return mapping.findForward("error");
         }
 
+		// check if clicked on save or continue
+		if (request.getParameterMap().containsKey("continue")) {
+			// handle what to do when there is no next page
+			Try ttry =  ct.getActiveTry();
+			if (page < ttry.getNumberOfPages())
+				page = page + 1;
+			//System.out.println(String.format("__%s___%s__", page, ttry.getNumberOfPages()));
+		}
+
         populateVO(ctivo, taskDef, ct, page);
         request.setAttribute("Task", ctivo);
 
@@ -207,9 +211,10 @@ public class ExecuteAction extends org.apache.struts.action.Action {
         ctivo.setTaskId(ctd.getId());
 
         if (ct.getComplexTaskDefRoot().hasTimeRestriction()) {
-            final long deadline = ct.getActiveTry().getStartTime() +
-            				ct.getActiveTry().getTimeExtension() +
-                    ct.getComplexTaskDefRoot().getTimeInMinutesWithoutKindnessExtensionTime() * 60 * 1000;
+			final long deadline = ct.getActiveTry().getStartTime()
+					+ ct.getActiveTry().getTimeExtension()
+					+ ct.getComplexTaskDefRoot().getTimeInMinutesWithoutKindnessExtensionTime()
+					* 60 * 1000;
             ctivo.setRemainingTimeMillis(deadline - System.currentTimeMillis());
         } else {
             ctivo.setRemainingTimeMillis(-1);
@@ -228,10 +233,17 @@ public class ExecuteAction extends org.apache.struts.action.Action {
         ctivo.setNumOfSubtasklets(pi.getNumOfSubtasklets());
         ctivo.setNumOfProcessedSubtasklets(pi.getNumOfProcessedSubtasklets());
 
+        /*
+         * FIXME: hier befindet sich teilw. redundanter Code, siehe einige Zeilen weiter
+         * oben (der berechnete Wert sollte bereits in Variable Deadline stehen?)
+         */
         if (ct.getComplexTaskDefRoot().hasTimeRestriction()) {
-            ctivo.setDeadline(DateUtil.getStringFromMillis(
-                    ct.getActiveTry().getStartTime() + ct.getActiveTry().getTimeExtension() + ct.getComplexTaskDefRoot().getTimeInMinutesWithoutKindnessExtensionTime()
-                    * 60 * 1000));
+			ctivo.setDeadline(DateUtil.getStringFromMillis(
+					ct.getActiveTry().getStartTime()
+					+ ct.getActiveTry().getTimeExtension()
+					+ ct.getComplexTaskDefRoot().getTimeInMinutesWithoutKindnessExtensionTime()
+					* 60 * 1000
+			));
         } else {
             ctivo.setDeadline("-");
         }

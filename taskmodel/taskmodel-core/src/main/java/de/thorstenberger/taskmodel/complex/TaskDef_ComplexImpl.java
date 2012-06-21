@@ -15,7 +15,7 @@ GNU General Public License for more details.
 You should have received a copy of the GNU General Public License
 along with this program; if not, write to the Free Software
 Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
-*/
+ */
 /**
  *
  */
@@ -32,9 +32,10 @@ import de.thorstenberger.taskmodel.impl.AbstractTaskDef;
 
 /**
  * @author Thorsten Berger
- *
+ * 
  */
-public class TaskDef_ComplexImpl extends AbstractTaskDef implements TaskDef_Complex {
+public class TaskDef_ComplexImpl extends AbstractTaskDef implements
+		TaskDef_Complex {
 
 	private boolean showCorrectionToUsers;
 
@@ -48,35 +49,49 @@ public class TaskDef_ComplexImpl extends AbstractTaskDef implements TaskDef_Comp
 	 * @param deadline
 	 * @param stopped
 	 */
-	public TaskDef_ComplexImpl(long id, String title, String shortDescription, Long deadline, boolean stopped, Long followingTaskId, ComplexTaskDefDAO complexTaskDefDAO, InputStream complexTaskIS, boolean showCorrectionToUsers, boolean visible ) {
-    this(id, title, shortDescription, deadline, stopped, followingTaskId, showCorrectionToUsers, visible, load(complexTaskDefDAO, complexTaskIS));
+	public TaskDef_ComplexImpl(long id, String title, String shortDescription,
+			Long deadline, boolean stopped, Long followingTaskId,
+			ComplexTaskDefDAO complexTaskDefDAO, InputStream complexTaskIS,
+			boolean showCorrectionToUsers, boolean visible) {
+		this(id, title, shortDescription, deadline, stopped, followingTaskId,
+				showCorrectionToUsers, visible, load(complexTaskDefDAO,
+						complexTaskIS));
 	}
 
-  private static ComplexTaskDefRoot load(ComplexTaskDefDAO complexTaskDefDAO, InputStream complexTaskIS) {
-    try {
-      return complexTaskDefDAO.getComplexTaskDefRoot(complexTaskIS);
-    } catch (TaskApiException e) {
-      throw new TaskModelPersistenceException(e);
-    }
-  }
+	private static ComplexTaskDefRoot load(ComplexTaskDefDAO complexTaskDefDAO,
+			InputStream complexTaskIS) {
+		try {
+			return complexTaskDefDAO.getComplexTaskDefRoot(complexTaskIS);
+		} catch (TaskApiException e) {
+			throw new TaskModelPersistenceException(e);
+		}
+	}
 
-  public TaskDef_ComplexImpl(long id, String title, String shortDescription, Long deadline, boolean stopped,
-      Long followingTaskId, boolean showCorrectionToUsers, boolean visible, ComplexTaskDefRoot complexTaskDefRoot) {
-    super(id, title, shortDescription, deadline, stopped, followingTaskId, visible);
-    this.showCorrectionToUsers = showCorrectionToUsers;
-    this.visible = visible;
-    this.complexTaskDefRoot = complexTaskDefRoot;
-  }
+	public TaskDef_ComplexImpl(long id, String title, String shortDescription,
+			Long deadline, boolean stopped, Long followingTaskId,
+			boolean showCorrectionToUsers, boolean visible,
+			ComplexTaskDefRoot complexTaskDefRoot) {
+		super(id, title, shortDescription, deadline, stopped, followingTaskId,
+				visible);
+		this.showCorrectionToUsers = showCorrectionToUsers;
+		this.visible = visible;
+		this.complexTaskDefRoot = complexTaskDefRoot;
+	}
 
-
-	/* (non-Javadoc)
-	 * @see de.thorstenberger.taskmodel.complex.TaskDef_Complex#isShowCorrectionToUsers()
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see
+	 * de.thorstenberger.taskmodel.complex.TaskDef_Complex#isShowCorrectionToUsers
+	 * ()
 	 */
 	public boolean isShowCorrectionToUsers() {
 		return showCorrectionToUsers;
 	}
 
-	/* (non-Javadoc)
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see de.thorstenberger.taskmodel.TaskDef#getType()
 	 */
 	public String getType() {
@@ -84,7 +99,8 @@ public class TaskDef_ComplexImpl extends AbstractTaskDef implements TaskDef_Comp
 	}
 
 	/**
-	 * @param showCorrectionToUsers The showCorrectionToUsers to set.
+	 * @param showCorrectionToUsers
+	 *            The showCorrectionToUsers to set.
 	 */
 	public void setShowCorrectionToUsers(boolean showCorrectionToUsers) {
 		this.showCorrectionToUsers = showCorrectionToUsers;
@@ -96,7 +112,5 @@ public class TaskDef_ComplexImpl extends AbstractTaskDef implements TaskDef_Comp
 	public ComplexTaskDefRoot getComplexTaskDefRoot() {
 		return complexTaskDefRoot;
 	}
-
-
 
 }
