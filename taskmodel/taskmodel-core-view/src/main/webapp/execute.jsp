@@ -345,36 +345,21 @@ function checkedLink(name, target, linkClass)
 			<br></fieldset>
 				<div id="TimeOver_<%=i++%>" style="visibility:hidden; color:red; font-size:12px" align="right">Bearbeitungszeit abgelaufen</div>
 			<br>
-
 		</c:forEach>
-
 
 		<br>
         <br>
         <hr size="1" noshade>
         <br>
-        <table width="100%">
-          <tr>
-            <td valign="top"> <br>
-            </td>
-            <td>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</td>
-            <td valign="top">
-              <p align="right">
-			  	<input type="hidden" name="page" value="${Task.page}">
-                <c:if test="${Task.page > 1}">
-                	<input type="submit" name="save-and-backward" value="Speichern und Zurück">
-                </c:if>
-                <input type="submit" name="save" value="Speichern">
-                <c:if test="${Task.page < Task.numOfPages}">
-                	<input type="submit" name="save-and-forward" value="Speichern und Weiter">
-                </c:if>
-                <br>
-                <br>
-                Diese Seite abspeichern.<br>
-              </p>
-              </td>
-          </tr>
-        </table>
+		<input type="hidden" name="page" value="${Task.page}">
+		<c:if test="${Task.page < Task.numOfPages}">
+			<input type="submit" class="imgbutton" name="save-and-forward" title="Speichern und Weiter" value="">
+		</c:if>
+		<input type="submit" class="imgbutton" name="save" title="Speichern" value="">
+		<c:if test="${Task.page > 1}">
+			<input type="submit" class="imgbutton" name="save-and-backward" title="Speichern und Zurück" value="">
+		</c:if>
+		<br style="clear: both;" />
        </form>
     </td>
   </tr>
