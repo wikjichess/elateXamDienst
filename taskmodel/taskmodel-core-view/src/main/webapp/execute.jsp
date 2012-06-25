@@ -361,8 +361,11 @@ function checkedLink(name, target, linkClass)
             <td valign="top">
               <p align="right">
 			  	<input type="hidden" name="page" value="${Task.page}">
+                <c:if test="${Task.page > 1}">
+                	<input type="submit" name="continue" value="Speichern und Zurück">
+                </c:if>
                 <input type="submit" name="save" value="Speichern">
-                <c:if test="${true}">
+                <c:if test="${Task.page < Task.numOfPages}">
                 	<input type="submit" name="continue" value="Speichern und Weiter">
                 </c:if>
                 <br>
