@@ -160,13 +160,17 @@ public class ExecuteAction extends org.apache.struts.action.Action {
             return mapping.findForward("error");
         }
 
-		// check if clicked on save or continue
-		if (request.getParameterMap().containsKey("continue")) {
+		// check if clicked on save-and-forward (or save-and-backward)
+		if (request.getParameterMap().containsKey("save-and-forward")) {
 			// handle what to do when there is no next page
 			Try ttry =  ct.getActiveTry();
 			if (page < ttry.getNumberOfPages())
 				page = page + 1;
-			//System.out.println(String.format("__%s___%s__", page, ttry.getNumberOfPages()));
+		}
+		else if (request.getParameterMap().containsKey("save-and-backward")) {
+			// handle what to do when there is no previous page
+			if (page > 1)
+				page = page - 1;
 		}
 
         populateVO(ctivo, taskDef, ct, page);
